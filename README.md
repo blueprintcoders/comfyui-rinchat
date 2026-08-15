@@ -50,6 +50,18 @@ Where Rin Chat collects the picture. Behaves like Preview Image when you use Com
 
 Leave it blank. It only matters if one workflow contains **more than one** Rin Chat Input — then give each a name and set the same name on the provider in Rin Chat. The key can also be fed from a string node if you prefer wiring it.
 
+## Sample workflow
+
+[`sample-workflows/z-image-turbo.json`](sample-workflows/z-image-turbo.json) is a complete text-to-image workflow for **Z-Image Turbo** using only core ComfyUI nodes plus the two Rin Chat nodes. Drag the file into ComfyUI to import it (it's in API format; current ComfyUI converts it to a graph on drop).
+
+Models it expects (adjust the loader filenames to whatever you have):
+
+- `diffusion_models/z_image_turbo_bf16.safetensors`
+- `text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors` (loaded as type `lumina2`)
+- `vae/zImage_vae.safetensors`
+
+Turbo is distilled: the defaults are **8 steps at CFG 1** — leave Steps/CFG blank in Rin Chat's provider settings to keep them, or set the same numbers. Press **Queue** once after importing and Rin Chat picks it up.
+
 ## How Rin Chat finds your workflow
 
 ComfyUI records every queued prompt in its history in API format. Rin Chat reads that history and uses the **latest workflow you queued from the ComfyUI frontend** that contains these nodes — its own submissions are tagged and ignored, so it never adopts its own echo. It keeps the last known copy for when history is empty (a restart), and loading a *Save (API Format)* file in Rin Chat's settings pins that exact file instead.
